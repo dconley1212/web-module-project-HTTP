@@ -1,6 +1,9 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 
-const AddMovieForm = () => {
+const AddMovieForm = (props) => {
+  const { setMovies } = props;
   const [newMovie, setNewMovie] = useState({
     title: "",
     director: "",
@@ -8,6 +11,8 @@ const AddMovieForm = () => {
     metascore: 0,
     description: "",
   });
+
+  const { push } = useHistory();
 
   const handleChange = (e) => {
     setNewMovie({
@@ -18,10 +23,17 @@ const AddMovieForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    axios
+      .post("http://localhost:9000/api/movies", newMovie)
+      .then((resp) => {
+        setMovies(resp.data);
+        push("/movies");
+      })
+      .catch((err = console.log(err)));
   };
 
   return (
-    <div>
+    <div className="col">
       <div className="modal-content">
         <form onSubmit={handleSubmit}>
           <div className="modal-header">
@@ -77,6 +89,12 @@ const AddMovieForm = () => {
                 className="form-control"
               ></textarea>
             </div>
+          </div>
+          <div className="modal-footer">
+            <input type="submit" className="btn btn-info" value="Add" />
+            <Link to={`/movies/1`}>
+              <input type="button" className="btn btn-default" value="Cancel" />
+            </Link>
           </div>
         </form>
       </div>

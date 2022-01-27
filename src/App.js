@@ -48,22 +48,19 @@ const App = (props) => {
         <MovieHeader />
         <div className="row ">
           <FavoriteMovieList favoriteMovies={favoriteMovies} />
-
           <Switch>
-            <Route path="/movies/add">
-              <AddMovieForm />
-            </Route>
             <Route path="/movies/edit/:id">
               <EditMovieForm setMovies={setMovies} />
             </Route>
-
+            <Route path="/movies/add">
+              <AddMovieForm setMovies={setMovies} />
+            </Route>
             <Route path="/movies/:id">
               <Movie deleteMovie={deleteMovie} />
             </Route>
             <Route path="/movies">
               <MovieList movies={movies} />
             </Route>
-
             <Route path="/">
               <Redirect to="/movies" />
             </Route>
